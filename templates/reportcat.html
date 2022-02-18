@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Type of Posts{% endblock %}
+
+{% block content %}
+
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/reportentry">Vehicle Entry Status</a>
+    <a href="/reportapproved" >Approved Vehicles By Period</a>
+    <a href="/reportuser">User Account Status</a>
+    <a href="/reportevent">Type of Events</a>
+    <a href="/reportwarning" >Warning Vehicles By Period</a>
+    <a href="/reportoffence">Vehicle Warning Offences</a>
+    <a href="/reportblacklist" >Blacklisted Vehicles By Period</a>
+    <a href="/reportholder">Vehicle Holder Type</a>
+    <a href="/reportcompany">Vehicles By Company</a>
+    <a href="/reportcat">Type of Posts</a>
+    <a href="/reportstatus">Bug Post Status</a>
+</div>
+
+
+
+<div id="main" class="content">
+<button class="openbtn" onclick="openNav()">&#9776;</button>
+
+<script>
+    var myTH = document.getElementsByTagName("th")[0];
+    sorttable.innerSortFunction.apply(myTH, []);
+</script>
+
+        <link rel="stylesheet"  type="text/css" href="static/styles.css" />
+        <link type="text/css" rel="stylesheet" href="static/default.css" />
+        <br />
+        <br />
+
+        <h2 class="h2">Type of Posts</h2><br />
+
+<div class="chart-container">
+    <div class="doughnut-chart-container">
+        <canvas id="doughnut-chartcanvas-1"></canvas>
+    </div>
+</div>
+
+<script src="static/js/jQuery.min.js"></script>
+<script src="static/js/Chart.min.js"></script>
+
+<script>
+Chart.defaults.global.responsive = false;
+
+var ctx = $("#doughnut-chartcanvas-1");
+
+var data1 = {
+    labels: [{% for row in categ %}
+    "{{row.category}}",
+    {% endfor %}],
+    datasets: [
+        {
+          label: "Type of Posts",
+          data: [{% for row in categ %}
+          "{{row.total}}",
+          {% endfor %}],
+          backgroundColor: [
+              "#DE87DD",
+              "#ADD8E6",
+              "#FAA0A0",
+              "#F4A460",
+              "#2E8B57",
+              "#FFFF00"
+          ],
+          borderColor: [
+              "#A9A9A9",
+              "#A9A9A9",
+              "#A9A9A9",
+              "#A9A9A9",
+              "#A9A9A9",
+              "#A9A9A9"
+          ],
+          borderWidth: [1, 1, 1, 1, 1]
+
+        }
+    ]
+
+};
+
+var options = {
+    responsive: true,
+    title:{
+        display:true,
+        position: "bottom",
+        labels: {
+            fontColor: "#333",
+            fontSize: 16
+
+        }
+    },
+    legend: {
+        display: true,
+        position: "top",
+        labels: {
+            fontColor: "#333",
+            fontSize: 16
+
+        }
+
+    }
+
+};
+
+var chart1 = new Chart(ctx, {
+    type: "doughnut",
+    data: data1,
+    options: options
+});
+
+</script>
+
+            <table class="sortable">
+                <tr class="table__header">
+                    <th class="table__cell">Type of Posts</th>
+                    <th class="table__cell">Total Values</th>
+                </tr>
+
+                {% for row in categ %}
+                <tr class="table__row" >
+                    <td class="table__cell">{{row.category}}</a></td>
+                    <td class="table__cell">{{ row.total }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "220px";
+  document.getElementById("main").style.marginLeft = "220px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
+</script>
+
+{% endblock %}

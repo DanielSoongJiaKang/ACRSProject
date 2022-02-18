@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="static/stylesheet.css" />
+      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="static/menu.css" />
+      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/b5e65638f4.js" crossorigin="anonymous"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+
+
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+        <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <style>
+        li
+        {
+            z-index:10;
+        }
+        .sub-menu {
+            z-index:10;
+        }
+    </style>
+
+    <title>{% block title %}Home{% endblock %}</title>
+  </head>
+  <body>
+
+
+
+  <nav class="menu">
+  <ol>
+
+    <li class="menu-item "><a href="/" id="home">ACRS Home</a></li>
+
+{% if user.is_authenticated %}
+        <li class="menu-item" style="color: white;"><a>Account</a>
+            <div class="sub-menu">
+                <a href="/account" id="account">My Profile</a>
+                {% if current_user.roles == "Admin" %}
+                <a href="/userlist">User Management</a>
+                <a href="/useraudit">User Audit</a>
+                {% endif %}
+            </div>
+        </li>
+
+        <li class="menu-item" style="color: white;"><a>Vehicle</a>
+            <div class="sub-menu">
+                <a href="/screenvehicle" id="screenvehicle">Vehicle Entry Screening</a>
+                <a href="/checkvehicles">Vehicle Tracking</a>
+                {% if current_user.roles == "Admin" %}
+                <a href="/vehicle">Vehicle Management</a>
+                <a href="/appeallist">Appeal Management</a>
+                {% endif %}
+            </div>
+        </li>
+
+        <li class="menu-item" style="color: white;"><a>Posts</a>
+            <div class="sub-menu">
+                <a href="/posts">All Posts</a>
+                <a href="/categoryposts,Feedback">Feedback</a>
+                <a href="/categoryposts,Bug">Bug</a>
+            </div>
+        </li>
+{% else %}
+
+        <li class="menu-item"><a href="/login" id="login">Login</a></li>
+        <li class="menu-item"><a href="/about">About</a></li>
+        <li class="menu-item"><a href="/appeal">Appeal</a></li>
+{% endif %}
+
+{% if current_user.roles == "Admin" %}
+    <li class="menu-item">
+      <a href="/report">Report</a>
+    </li>
+
+{% endif %}
+{% if user.is_authenticated %}
+	<li class="menu-item"><a href="/logout" id="logout">Logout</a></li>
+{% endif %}
+  </ol>
+</nav>
+
+
+ {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+    <div>{% block content %}
+
+    </div>
+
+    {% endblock %}
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="static/index.js"
+    ></script>
+    <script src="static/sorttable.js"></script>
+
+
+
+  </body>
+</html>

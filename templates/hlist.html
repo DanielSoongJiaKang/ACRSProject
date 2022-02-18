@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}HolderType{% endblock %}
+
+{% block content %}
+
+
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+<style>
+#button {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #8c6;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+#button:hover {
+  background-color: #444;
+  color: white;
+}
+</style>
+
+<div class="content">
+
+<link rel="stylesheet"  type="text/css" href="static/styles.css" />
+<br />
+<br />
+
+<a onclick="goBack()" id="button">Back</a>
+<br />
+<br />
+<h2 class="h2">{{ holdertype }}</h2>
+
+<div style="margin-top:30px;">
+    <table id="data" class="table table-striped" style="background-color:#ffffff">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Carplate Number</th>
+                <th>Model</th>
+                <th>Company</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in put %}
+            <tr>
+                <td>{{row.name}}</td>
+                <td>{{row.vehicleno}}</td>
+                <td>{{row.model}}</td>
+                <td>{{row.company}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+$(document).ready(function () {
+    $('#data').DataTable({
+        columns: [
+            {orderable: true, searchable: true},
+            {orderable: true, searchable: true},
+            {orderable: true, searchable: true},
+            {orderable: true, searchable: true}],
+    });
+
+});
+</script>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+</div>
+
+{% endblock %}

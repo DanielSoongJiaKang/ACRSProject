@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Warning List{% endblock %}
+
+{% block content %}
+
+<style>
+
+.button {
+    background-color: #f5f5f5;
+    border: 2px solid #4CAF50;
+    color: black;
+    padding: 12px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    transition-duration: 0.4s;
+    margin: 1rem;
+}
+
+.button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+</style>
+
+<div class="btn-group" style="width: 100%;">
+    <a href="/checkvehicles" class="button" style="width:25%;">Track Vehicles</a>
+    <a href="/vehicleinfo" class="button" style="width:25%;">30 Mins Grace Parking List</a>
+    <a href="/blacklist" class="button" style="width:25%;">Blacklist</a>
+    {% if current_user.roles == "Admin" %}
+    <a href="/appeallist" class="button" style="width:25%;">Appeal List</a>
+    {% endif %}
+</div>
+
+
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+        <div style="margin-top:40px">
+            <link rel="stylesheet"  type="text/css"  href="static/styles.css"/>
+
+            <h2 class="h2">Warning List</h2>
+
+            <table id="data" class="table table-striped" style="background-color:#ffffff">
+                <thead>
+                    <tr>
+                        <th>Security Guard Name</th>
+                        <th>Carplate Number</th>
+                        <th>Number of Offences</th>
+                        {% if current_user.roles == "Admin" %}
+                        <th>Action</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in track %}
+                    <tr>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.vehicleno }}</td>
+                        <td>{{ row.numofcaught }}</td>
+                        {% if current_user.roles == "Admin" %}
+                        <td><a href="/vehicleauditdelete/{{row.id}}" class="btn btn-danger btn-xs" style="border: none;border-radius: 10px;color: white;padding: 10px 15px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;background-color: #FF0000;" onclick="return confirm('Confirm deletion?')" >Delete</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+<script>
+$(document).ready(function () {
+    $('#data').DataTable({
+        columns: [
+            null,
+            null,
+            null,
+            {% if current_user.roles == "Admin" %}
+            {orderable: false, searchable: false}
+            {% endif %}],
+
+    });
+
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Overall Number of Vehicles Approved by Year{% endblock %}
+
+{% block content %}
+
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/reportentry">Vehicle Entry Status</a>
+    <a href="/reportapproved" >Approved Vehicles By Period</a>
+    <a href="/reportuser">User Account Status</a>
+    <a href="/reportevent">Type of Events</a>
+    <a href="/reportwarning" >Warning Vehicles By Period</a>
+    <a href="/reportoffence">Vehicle Warning Offences</a>
+    <a href="/reportblacklist" >Blacklisted Vehicles By Period</a>
+    <a href="/reportholder">Vehicle Holder Type</a>
+    <a href="/reportcompany">Vehicles By Company</a>
+    <a href="/reportcat">Type of Posts</a>
+    <a href="/reportstatus">Bug Post Status</a>
+</div>
+
+
+<div id="main" class="content">
+<button class="openbtn" onclick="openNav()">&#9776;</button>
+
+<script src='static/Chart.min.js'></script>
+<script>
+    var myTH = document.getElementsByTagName("th")[0];
+    sorttable.innerSortFunction.apply(myTH, []);
+</script>
+
+        <link rel="stylesheet"  type="text/css" href="static/styles.css" />
+        <br />
+        <br />
+        <h2 class="h2">Overall Number of Vehicles Approved by Year</h2><br />
+
+<div class="outbox">
+    <div class="container">
+      <canvas id="myChart" width="690" height="400"></canvas>
+    </div>
+</div>
+
+<script>
+Chart.defaults.global.responsive = false;
+
+var chartData = {
+labels : [{% for row in output %}
+"{{row.year.year}}",
+{% endfor %}],
+datasets : [{
+label: 'Approved Vehicles',
+fill: true,
+lineTension:0.1,
+backgroundColor: "rgba(75,192,192,0.4)",
+borderColor: "rgba(75,192,192,1)",
+borderCapStyle: 'butt',
+borderDash: [],
+borderDashOffset: 0.0,
+borderJoinStyle: 'miter',
+pointBorderColor: "rgba(1,5,8,1)",
+pointBackgroundColor: "#fff",
+pointBorderWidth: 1,
+pointHoverRadius: 5,
+pointHoverBackgroundColor: "rgba(75,192,192,1)",
+pointHoverBorderColor: "rgba(1,5,8,1)",
+pointHoverBorderWidth: 2,
+pointRadius: 1,
+pointHitRadius: 10,
+data : [{% for row in output %}
+{{row.total}},
+{% endfor %}],
+spanGaps: false
+}]
+}
+
+var ctx = document.getElementById("myChart").getContext("2d");
+
+var myChart = new Chart(ctx, {
+type: 'line',
+data: chartData,
+options : {
+    scales: {
+        xAxes: [{
+            scaleLabel: {
+                display: true,
+                labelString: 'Year'
+            }
+        }],
+        yAxes: [{
+            scaleLabel: {
+                display: true,
+                labelString: 'Number of Vehicles'
+            }
+        }]
+    }
+}
+});
+
+</script>
+
+<br />
+<br />
+<br />
+
+        <div>
+            <table class="sortable">
+                <tr class="table__header">
+                    <th class="table__cell">Period</th>
+                    <th class="table__cell">Total Approved Vehicles</th>
+                    <th class="sorttable_nosort">Action</th>
+                </tr>
+
+                {% for row in output %}
+                <tr class="table__row" >
+                    <td class="table__cell"><a href="/reportapprovedmonth{{row.year.year}}">{{row.year.year}}</a></td>
+                    <td class="table__cell">{{ row.total }}</td>
+                    <td class="table__cell"><a href="/alist,{{ row.year.year }}">View List</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br />
+        </div>
+
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "220px";
+  document.getElementById("main").style.marginLeft = "220px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
+</script>
+
+{% endblock %}
+

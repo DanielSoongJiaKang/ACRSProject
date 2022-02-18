@@ -1,0 +1,75 @@
+
+{% extends 'base.html' %}
+
+<!--Change the title based on the base.html -->
+{% block title %}Login{% endblock %}
+
+
+
+{% block content %}
+
+    <div>
+   <img src="/static/rplogo.png" width="300" height="125" class="center"/>
+
+   </div>
+   </br>
+   <div>
+
+   </div>
+   </br>
+<section>
+    <div class="rt-container">
+          <div class="col-rt-12">
+              <div class="Scriptcontent">
+
+              <!-- Stylish Login Page Start -->
+                <form class="codehim-form" method= "POST">
+        <div class="form-title">
+            <div class="user-icon gr-bg">
+            <i class="fa fa-user"></i>
+            </div>
+     <h2> ACRS Login</h2>
+
+
+            </div>
+    <label for="emaillogin" style="font-size:25px"><i class="fa fa-envelope"></i> Email:</label>
+        <input type="email" id="emaillogin" class="cm-input" name="emaillogin" placeholder="Enter your email address" required>
+
+        <label for="passwordlogin" style="font-size:25px"><i class="fa fa-lock"></i> Password:
+         <span class ="eye" onclick="myFunction()"><i class="fa fa-eye-slash" id="togglePassword"></i></span></label>
+        <input id="passwordlogin" name="passwordlogin" type="password" class="cm-input" placeholder="Enter your password" required>
+
+
+
+
+        <button type="submit" class="btn-login  gr-bg"><b>Login</b></button>
+                    <a href="{{ url_for('account.reset_request') }}">Forget Password?</a>
+    </form>
+
+
+              <!-- Stylish Login Page End -->
+
+    		</div>
+		</div>
+    </div>
+</section>
+
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("passwordlogin");
+        var y = document.getElementById("togglePassword");
+
+        if(x.type === 'password') {
+            x.type = "text";
+            y.className = "fa fa-eye";
+        }
+        else {
+            x.type = "password"
+            y.className = "fa fa-eye-slash"
+        }
+
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Blacklisted Vehicles{% endblock %}
+
+{% block content %}
+
+
+
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+        <div style="margin-top:40px">
+            <link rel="stylesheet"  type="text/css"  href="static/styles.css"/>
+
+            <h2 class="h2">User Audit</h2>
+
+            <table id="data" class="table table-striped" style="background-color:#ffffff">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Action</th>
+                        <th>Date Time of Audit</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in audit %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.action }}</td>
+                        <td>{{ row.datetime }}</td>
+                        <td>{{ row.user.email }} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+<script>
+$(document).ready(function () {
+    $('#data').DataTable({
+        columns: [
+            null,
+            null,
+            null,
+            null],
+            "order": [[0, "desc"]]
+
+
+    });
+
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Welcome to ACRS{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+
+    <script src="static/fullCalendar.js"></script>
+
+<style>
+
+#calendar {
+  max-width: 900px;
+  margin: 40px auto;
+}
+</style>
+
+<div class="container" style="color:#ffffff; margin-top:20px;">
+ <h2 align="center">Select a Lockdown Date</h2>
+        <div id="calendar" ></div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      aspectRatio: 1,
+
+
+
+    eventRender: function(eventObj, $el) {
+      $el.popover({
+        title: eventObj.title,
+        content: eventObj.description,
+        trigger: 'hover',
+        placement: 'top',
+
+      });
+    },
+      events: [
+        {% for event in events %}
+      {
+        title: 'Event Name:{{event.eventname}} |' + 'Event Type: {{event.eventtype}}' ,
+        start: '{{event.startdate}}',
+        end: '{{event.enddate}}',
+        color: '{{event.colorcode}}',
+        url: '/entryvehiclebydatepost,{{event.id}}',
+
+
+      },
+{% endfor %}
+      ],
+
+
+
+    eventClick: function (info) {
+      info.jsEvent.preventDefault(); // don't let the browser navigate
+
+      if (info.event.url) {
+        window.open(info.event.url);
+      }
+
+    },
+    eventTimeFormat: {
+           hour: 'numeric',
+           minute: '2-digit',
+           meridiem: 'short'
+    }
+
+
+
+    });
+
+  calendar.render();
+  });
+
+
+</script>
+
+
+{% endblock %}

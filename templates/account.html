@@ -1,0 +1,73 @@
+{% include 'base.html' %}
+{% extends 'accountlayout.html' %}
+
+{% block title %} Account {% endblock %}
+
+{% block content %}
+
+    <div class="content-section">
+      <div class="media">
+        <div class="media-body">
+            <div align="center">
+            <br/>
+            <h2 class="account-heading" >{{ "Welcome " + user.name }}</h2>
+            <p  style="color:black;">{{ user.email }}</p>
+            </div>
+        </div>
+      </div>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div>
+                <legend class="border-bottom mb-4" >Account Info</legend>
+                </div>
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.contact.label(class="form-control-label") }}
+                    {% if form.contact.errors %}
+                        {{ form.contact(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.contact.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.contact(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('account.checkpassword') }}">Change Password</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

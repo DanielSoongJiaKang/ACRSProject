@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Car Scanned Today{% endblock %}
+{% block content %}
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+
+<h1 style="margin-left:400px; ">{{datetime}} (TODAY)</h1>
+
+<div style="margin-top:40px">
+    <table id="data" class="table table-striped" style="background-color:#ffffff">
+    <thead>
+        <tr>
+            <th>Date Time Scanned</th>
+            <th>Vehicle No</th>
+            <th>Person who Scanned</th>
+            <th>Access</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in entry %}
+        <tr>
+            <td>{{ row.datetime }}</td>
+            <td>{{ row.vehicleno }}</td>
+            <td>{{ row.user.email }}</td>
+            <td>{{ row.access }}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+</div>
+
+<script>
+$(document).ready(function () {
+    $('#data').DataTable({
+        columns: [
+            null,
+            null,
+            null,
+            null],
+
+
+    });
+
+});
+</script>
+
+
+{% endblock %}

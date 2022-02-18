@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block title %}Type of Events by Month{% endblock %}
+
+{% block content %}
+
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/reportentry">Vehicle Entry Status</a>
+    <a href="/reportapproved" >Approved Vehicles By Period</a>
+    <a href="/reportuser">User Account Status</a>
+    <a href="/reportevent">Type of Events</a>
+    <a href="/reportwarning" >Warning Vehicles By Period</a>
+    <a href="/reportoffence">Vehicle Warning Offences</a>
+    <a href="/reportblacklist" >Blacklisted Vehicles By Period</a>
+    <a href="/reportholder">Vehicle Holder Type</a>
+    <a href="/reportcompany">Vehicles By Company</a>
+    <a href="/reportcat">Type of Posts</a>
+    <a href="/reportstatus">Bug Post Status</a>
+</div>
+
+<style>
+#button {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #8c6;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+#button:hover {
+  background-color: #444;
+  color: white;
+}
+</style>
+
+<div id="main" class="content">
+<button class="openbtn" onclick="openNav()">&#9776;</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+
+
+<script>
+    var myTH = document.getElementsByTagName("th")[0];
+    sorttable.innerSortFunction.apply(myTH, []);
+</script>
+
+        <link rel="stylesheet"  type="text/css" href="static/styles.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css" />
+        <br />
+        <br />
+        <br />
+
+        <a onclick="goBack()" id="button">Back to Year</a>
+        <br />
+        <br />
+        <h2 class="h2">Type of Events by Month</h2><br />
+
+<div class="outbox">
+    <div class="container">
+        <canvas id="myChart" width="690" height="400"></canvas>
+    </div>
+</div>
+
+<script type="text/javascript">
+Chart.defaults.global.responsive = false;
+
+var ctx = document.getElementById("myChart");
+
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [{% for row in query3 %}
+        "{{row.month.month}}",
+        {% endfor %}],
+        datasets:[{
+            label: 'Event',
+            data: [{% for row in query3 %}
+            {{row.event}},
+            {% endfor %}],
+            backgroundColor: [
+                'rgba(165, 222, 135, 0.5)',
+                'rgba(165, 222, 135, 0.5)',
+                'rgba(165, 222, 135, 0.5)',
+                'rgba(165, 222, 135, 0.5)',
+                'rgba(165, 222, 135, 0.5)'],
+            borderColor: [
+                'rgba(165, 222, 135, 1)',
+                'rgba(165, 222, 135, 1)',
+                'rgba(165, 222, 135, 1)',
+                'rgba(165, 222, 135, 1)',
+                'rgba(165, 222, 135, 1)'],
+            borderWidth: 4
+        }, {
+            label: 'Lockdown',
+            data: [{% for row in query4 %}
+            {{row.lockdown}},
+            {% endfor %}],
+            backgroundColor: [
+                'rgba(222, 135, 135, 0.5)',
+                'rgba(222, 135, 135, 0.5)',
+                'rgba(222, 135, 135, 0.5)',
+                'rgba(222, 135, 135, 0.5)',
+                'rgba(222, 135, 135, 0.5)'],
+            borderColor: [
+                'rgba(222, 135, 135, 1)',
+                'rgba(222, 135, 135, 1)',
+                'rgba(222, 135, 135, 1)',
+                'rgba(222, 135, 135, 1)',
+                'rgba(222, 135, 135, 1)'],
+            borderWidth: 4
+        }]
+    },
+    options : {
+        scales: {
+            xAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Month'
+
+                }
+
+            }],
+            yAxes: [{
+                ticks:{
+                    beginAtZero: true
+
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Values'
+
+                }
+
+            }]
+
+        }
+
+    }
+});
+
+</script>
+
+<br />
+<br />
+<br />
+        <div style="float:left; width: 50%;">
+            <table class="center">
+                <tr class="table__header">
+                    <th class="table__cell">Period</th>
+                    <th class="table__cell">Total Number of Event</th>
+                </tr>
+
+                {% for row in query3 %}
+                <tr class="table__rows" >
+                    <td class="table__cell">{{ row.month.month }}</td>
+                    <td class="table__cell">{{ row.event }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div style="float:left; width: 50%;">
+            <table class="center" style="margin-left:-10px;">
+                <tr class="table__header">
+                    <th class="table__cell">Total Number of Lockdown</th>
+                </tr>
+
+                {% for row in query4 %}
+                <tr class="table__rows" >
+                    <td class="table__cell">{{ row.lockdown }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br/>
+        </div>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+
+</script>
+
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "220px";
+  document.getElementById("main").style.marginLeft = "220px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
+</script>
+
+{% endblock %}

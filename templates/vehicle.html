@@ -1,0 +1,142 @@
+ {% extends 'base.html' %}
+
+{% block title %}Vehicle List{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+<style>
+#button {
+  width: 60px;
+  height: 40px;
+  line-height: 20px;
+  min-height: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+</style>
+
+<h2>
+
+    <a class="btn btn-success float-right" href="/vehiclecreate">Add New Vehicle</a>
+    <a class="btn btn-success float-right" href="/importvehicle" style="margin-right:15px;">Import Vehicle From CSV</a>
+</h2>
+<h2 class="h2" style="color:white;">Vehicle List</h2>
+
+<div style="margin-top:40px">
+    <form method="POST" action="/vehicledelete">
+        <div align="right">
+      <input type="submit" value="Delete All Selected" class="btn btn-primary" onclick="return confirm('Confirm deletion?')">
+      </div>
+      <br/>
+    <table id="data" class="table table-striped" style="background-color:#ffffff">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Vehicle Number</th>
+            <th>Holder Name</th>
+            <th>Holder Type</th>
+            <th>Model</th>
+            <th>Company</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in Vehicle %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.vehicleno }}</td>
+            <td>{{ row.holdername }}</td>
+            <td>{{ row.holdertype }}</td>
+            <td>{{ row.model }}</td>
+            <td>{{ row.company }}</td>
+            <td>
+                <a href="/vehicleupdate/{{row.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+            </td>
+            <td><input type="checkbox" name="vehcheckbox" value="{{row.id}}" />     </form></td>
+        </tr>
+
+
+            <!-- Modal edit vehicle -->
+            <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Information</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <form action="{{url_for('vehicle.update')}}" method="POST">
+                                <div class="form-group">
+                                    <label>Vehicle Number: </label>
+                                    <input type="hidden"  name="id" value="{{row.id}}">
+                                    <input type="text" class="form-control" name="vehicleno" value="{{row.vehicleno}}" required minlength="5">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Holder Name: </label>
+                                    <input type="text" class="form-control" name="holdername" value="{{row.holdername}}" required minlength="3">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Holder Type: </label>
+                                    <select id="htypereg" style="width:100%;height:30px;" name="holdertype" value="{{row.holdertype}}">
+                                        <option>{{ row.holdertype }}</option>
+                                        <option>Staff-FT</option>
+                                        <option>Staff-AL</option>
+                                        <option>Partner-Vendor</option>
+                                        <option>Tenant</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Car Model: </label>
+                                    <input type="text" class="form-control" name="model" value="{{row.model}}" required minlength="2">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Company: </label>
+                                    <input type="text" class="form-control" name="company" value="{{row.company}}" required minlength="2">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="submit">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </tbody>
+  </table>
+
+
+</div>
+
+   <script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        columns: [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {orderable: false, searchable: false},
+            {orderable: false, searchable: false}],
+             "order": [[0, "desc"]]
+      });
+    });
+  </script>
+
+{% endblock %}

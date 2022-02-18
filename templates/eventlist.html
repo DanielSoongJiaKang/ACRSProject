@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Event List{% endblock %}
+{% block content %}
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+<script type="text/javascript" src="static/dateformat.js"></script>
+
+
+
+
+
+<style>
+#button {
+  width: 60px;
+  height: 40px;
+  line-height: 20px;
+  min-height: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+</style>
+
+<h2 class="h2" style="color:white;">Vehicle List</h2>
+
+    <div style="margin-top:40px">
+    <form method="POST" action="/eventdelete">
+    <div align="right">
+                <input type="submit" value="Delete All Selected" class="btn btn-primary" onclick="return confirm('Confirm deletion?')">
+    </div>
+    <br/>
+
+      <table id="data" class="table table-striped" style="background-color:#ffffff">
+    <thead>
+      <tr>
+        <th>Event ID</th>
+        <th>Event Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Event Type</th>
+        <th>Event Description</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in events  %}
+
+
+        <tr>
+          <td>{{ event.id }}</td>
+          <td>{{ event.eventname }}</td>
+          <td>{{ event.startdate }}</td>
+          <td>{{ event.enddate }}</td>
+          <td>{{ event.eventtype }}</td>
+          <td>{{ event.eventdes }}</td>
+        <td>
+            <a href="/eventupdate/{{event.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{event.id}}">Edit</a>
+        </td>
+        <td><input type="checkbox" name="mycheckbox" value="{{event.id}}" /></td></form>
+        </tr>
+
+         <!-- Modal edit vehicle -->
+                <div id="modaledit{{event.id}}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Update Event</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="{{url_for('views.updateevents')}}" method="POST">
+                                    <div class="form-group">
+                                        <label>Event Title: </label>
+                                        <input type="hidden"  name="id" value="{{event.id}}">
+                                        <input type="text" class="form-control" name="updatetitle" value="{{event.eventname}}" required minlength="3">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Start Date(YYYY-MM-DD HH:MM) (24 HOURS FORMAT): </label>
+                                        <input value="{{ event.startdate }}" type="text" class="form-control" name="eventstartdate" id="eventstartdate" required
+                                        pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" placeholder="YYYY-MM-DD HH:MM">
+                                    </div>
+
+
+                                     <div class="form-group">
+                                        <label>End Date(YYYY-MM-DD HH:MM): </label>
+                                        <input type="text" class="form-control" name="eventenddate" id="eventenddate" value="{{ event.enddate }}" required
+                                        pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}" placeholder="YYYY-MM-DD HH:MM">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Event Type: </label>
+                                        <select id="updateeventtype" style="width:100%;height:30px;" name="updateeventtype" value="{{event.eventtype}}">
+                                            <option>{{event.eventtype}}</option>
+                                            <option>Event</option>
+                                            <option>Lockdown</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Event Description: </label>
+                                        <input type="textarea" class="form-control" name="updateeventdes" value="{{event.eventdes}}" required minlength="4">
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" type="submit">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+
+   <script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        columns: [
+          null,
+          null,
+          null,
+          null,
+          null,
+         null,
+         {orderable: false, searchable: false},
+         {orderable: false, searchable: false}],
+        "order": [[0, "desc"]]
+      });
+    });
+
+  </script>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+<!--Change the title based on the base.html -->
+{% block title %}Create User{% endblock %}
+
+
+
+{% block content %}
+
+
+<div>
+   <img src="/static/rplogo.png" width="300" height="125" class="center"/>
+
+</div>
+</br>
+<div>
+
+</div>
+</br>
+
+<section>
+
+
+    <div class="rt-container">
+          <div class="col-rt-15">
+              <div class="Scriptcontent">
+
+              <!-- Stylish Login Page Start -->
+                <form class="codehim-form" method= "POST" >
+        <div class="form-title">
+            <div class="user-icon gr-bg">
+            <i class="fa fa-user"></i>
+            </div>
+     <h2>Create New User</h2>
+
+
+            </div>
+        <label for="emailreg" style="font-size:25px">Email:</label>
+        <input type="email" id="emailreg" class="cm-input" name="emailreg" placeholder="Enter user email address" required>
+
+        <label for="passwordreg" style="font-size:25px">Password:</label>
+        <input id="passwordreg" type="password" class="cm-input" name="passwordreg" placeholder="Enter user password">
+
+        <label for="rolesreg" style="font-size:25px">Roles :</label>
+        <select id="rolesreg" name="rolesreg" class="cm-input">
+            <option>Admin</option>
+            <option>User</option>
+        </select>
+
+        <label for="namereg" style="font-size:25px">Full Name:</label>
+        <input type="text" id="namereg" class="cm-input" name="namereg" placeholder="Enter User Full Name">
+
+        <label for="contactreg" style="font-size:25px">Contact Number:</label>
+        <input type="number" class="cm-input" id="contactreg" name="contactreg" required placeholder="Enter User Contact">
+
+        <label for="status" style="font-size:25px">Status :</label>
+        <select id="status" name="status" class="cm-input">
+            <option>Active</option>
+            <option>Inactive</option>
+        </select>
+
+
+        <button type="submit" class="btn-login  gr-bg"><b>Create User</b></button>
+    </form>
+              <!-- Stylish Login Page End -->
+
+    		</div>
+		</div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+{% endblock %}

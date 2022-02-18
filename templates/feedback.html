@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Feedback{% endblock %}
+{% block content%}
+<h1 align="center">Feedback</h1>
+<div>
+<ul class="list-group" id="feedback">
+  {% for feedback in data %}
+  <li class="list-group-item">
+    {{ feedback.data }}
+    {% if current_user.roles == "Admin" %}
+    <a class="close" href="/delete-feedback/{{feedback.id}}" onclick="return confirm('Are You Sure To Delete ?')">
+      DELETE
+    </a>
+    {% endif %}
+  </li>
+
+  {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="feedback" id="feedback" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add Feedback</button>
+  </div>
+</form>
+</div>
+{% endblock %}

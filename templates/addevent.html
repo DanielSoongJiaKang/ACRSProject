@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Add Event{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var calendarEl = document.getElementById('calendar');
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth'
+          });
+          calendar.render();
+        });
+      </script>
+
+ <div class="rt-container">
+          <div class="col-rt-15">
+              <div class="Scriptcontent">
+                   <form class="codehim-form" style="margin-top:100px;" method="POST">
+         <div class="form-title">
+            <div class="user-icon gr-bg">
+            <i class="fa fa-calendar"></i>
+            </div>
+     <h2>Create New Event</h2>
+
+
+            <div class="mb-3" style="margin-top:30px">
+              <label for="eventname" style="font-size:25px; color:#000000">Event title</label>
+              <input type="text" class="cm-input" name="eventname" id="eventname" placeholder="Enter the event title" required minlength="3">
+            </div>
+            <div class="mb-3">
+              <label for="startdate" style="font-size:25px; color:#000000">Start date</label>
+              <input type="datetime-local" class="cm-input" name="startdate" id="startdate" placeholder="DD/MM/YYYY" required>
+            </div>
+            <div class="mb-3">
+              <label for="enddate" style="font-size:25px; color:#000000">End date</label>
+              <input type="datetime-local" class="cm-input" name="enddate" id="enddate" required>
+            </div>
+            <div class="mb-3">
+              <label for="eventtype" style="font-size:25px">Event Type</label>
+              <select id ="eventtype" name="eventtype" class="cm-input">
+                  <option>Event</option>
+                  <option>Lockdown</option>
+              </select>
+            </div>
+             <div class="mb-3">
+              <label for="description" style="font-size:25px; color:#000000">Description</label>
+              <input type="textarea" class="cm-input" name="description" id="description" placeholder="Enter the event description" required minlength="5">
+            </div>
+
+            <button type="submit" class="btn-login gr-bg" style="margin-top:50px;">Submit</button>
+          </form>
+   	</div>
+		</div>
+    </div>
+
+{% endblock %}

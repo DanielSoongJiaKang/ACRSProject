@@ -1,0 +1,19 @@
+{% extends 'posts_div.html' %}
+
+{% block title %}{{category}} Posts{% endblock %}
+<h1 align="center" style="color:white;">{% block header %}{{category}} Posts{% endblock %}</h1>
+
+{% block footer %}
+
+
+
+
+<div align="center">
+  <a href="/posts"
+    ><button type="button" class="btn btn-primary btn-lg">Back</button></a
+  >
+</div>
+
+<script src="static/postlikeindex.js"></script>
+
+{% endblock %}

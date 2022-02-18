@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}New Appeal{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div>
+   <img src="/static/rplogo.png" width="300" height="125" class="center"/>
+
+</div>
+</br>
+<div>
+
+</div>
+</br>
+
+<section>
+
+
+    <div class="rt-container">
+          <div class="col-rt-15">
+              <div class="Scriptcontent">
+
+              <!-- Stylish Login Page Start -->
+                <form class="codehim-form" method= "POST" >
+        <div class="form-title">
+
+     <h2>New Appeal</h2>
+
+
+            </div>
+        <label for="vehicleno" style="font-size:25px">Vehicle Number: </label>
+        <input id="vehicleno" class="cm-input" name="vehicleno" placeholder="Enter vehicle number: " required>
+
+        <label for="name" style="font-size:25px">Holder Name: </label>
+        <input id="name" class="cm-input" name="name" placeholder="Enter name: " required>
+
+        <label for="name" style="font-size:25px">Email: </label>
+        <input id="email" type="email" class="cm-input" name="email" placeholder="Enter email: " required>
+
+        <label for="reason" style="font-size:25px">Reason: </label>
+        <input type="text" id="reason" class="cm-input" name="reason" placeholder="Enter reason for appeal: " required>
+
+
+        <button type="submit" class="btn-login  gr-bg"><b>Send Appeal</b></button>
+    </form>
+              <!-- Stylish Login Page End -->
+
+    		</div>
+		</div>
+    </div>
+</section>
+
+
+
+{% endblock %}

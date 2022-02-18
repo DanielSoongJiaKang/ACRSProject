@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Vehicle{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div>
+   <img src="/static/rplogo.png" width="300" height="125" class="center"/>
+
+</div>
+</br>
+<div>
+
+</div>
+</br>
+
+<section>
+
+
+    <div class="rt-container">
+          <div class="col-rt-15">
+              <div class="Scriptcontent">
+
+              <!-- Stylish Login Page Start -->
+                <form class="codehim-form" method= "POST" >
+        <div class="form-title">
+            <div class="user-icon gr-bg">
+            <i class="fa fa-user"></i>
+            </div>
+     <h2>Create New Vehicle</h2>
+
+
+            </div>
+        <label for="vehiclereg" style="font-size:25px">Vehicle Number: </label>
+        <input id="vehiclereg" class="cm-input" name="vehiclereg" placeholder="Enter vehicle number: " required>
+
+        <label for="hnamereg" style="font-size:25px">Hodler Name: </label>
+        <input id="hnamereg" class="cm-input" name="hnamereg" placeholder="Enter holder name: ">
+
+
+         <label for="htypereg" style="font-size:25px">Holder Type: </label>
+         <select id="htypereg" name="htypereg" class="cm-input">
+             <option>Staff-FT</option>
+             <option>Staff-AL</option>
+             <option>Partner-Vendor</option>
+             <option>Tenant</option>
+         </select>
+
+        <label for="modelreg" style="font-size:25px">Car Model: </label>
+        <input type="text" id="modelreg" class="cm-input" name="modelreg" placeholder="Enter car model: ">
+
+        <label for="companyreg" style="font-size:25px">Company: </label>
+        <input type="text" id="companyreg" class="cm-input" name="companyreg" placeholder="Enter company name: ">
+
+
+        <button type="submit" class="btn-login  gr-bg"><b>Create Vehicle</b></button>
+    </form>
+              <!-- Stylish Login Page End -->
+
+    		</div>
+		</div>
+    </div>
+</section>
+
+
+
+{% endblock %}

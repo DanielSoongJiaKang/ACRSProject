@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+
+<style>
+    select {
+        width:100%;
+        height:50px;
+    }
+</style>
+
+<h2>
+    <a class="btn btn-success float-right" href="/create-post">Create a Post</a>
+</h2>
+
+<h1 align="left" style="color:white;">{% block header %}Posts{% endblock %}</h1>
+
+<div id="posts">
+    {% for post in posts %}
+    <div class="card border-dark">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <a href="/posts,{{post.user.name}}">{{post.user.name}}</a>
+            <a href="/categoryposts,{{post.category}}">{{post.category}}</a>
+        <div>
+
+        <span id="likes-count-{{post.id}}">
+        {{ post.likes|length }}
+        </span>
+
+        {% if user.id in post.likes|map(attribute="author")|list %}
+
+        <i class="fas fa-thumbs-up" id="like-button-{{post.id}}" onclick="like({{post.id}})"></i>
+
+        {% else %}
+
+        <i class="far fa-thumbs-up" id="like-button-{{post.id}}" onclick="like({{post.id}})"></i>
+
+        {% endif %}
+
+        {% if user.id == post.author %}
+
+        <div class="btn-group" onclick="return confirm('Confirm deletion?')" >
+            <a href="/delete-post,{{post.id}},{{ post.author}},{{user.id }}" class="dropdown-item">Delete</a>
+        </div>
+
+        {% endif %}
+
+        </div>
+        </div>
+
+    <div class="card-body">
+        <div class="card-text">{{post.text}}</div>
+        <br />
+        <div class="collapse" id="comments-{{post.id}}">
+            <div class="card">
+            <div class="card-body" id="comments-expanded-{{post.id}}">
+            {% for comment in post.comments %}
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="/posts,{{comment.user.name}}">{{comment.user.name}}</a>: {{comment.text}}
+                </div>
+                <div>
+                    <small class="text-muted"> {{comment.date_created}}</small>
+                    {% if user.id == comment.author or user.id == post.author %}
+                    <div class="btn-group" onclick="return confirm('Confirm deletion?')" >
+                        <a href="/delete-comment,{{comment.id}},{{comment.author}},{{user.id}}" class="dropdown-item">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+            </div>
+        </div>
+
+        <p class="card-text">
+        {% if post.comments|length > 0 %}
+            <a data-bs-toggle="collapse" href="#comments-{{post.id}}" role="button">
+                <small>View {{post.comments|length}} Comments</small>
+            </a>
+        {% else %}
+            <small class="text-muted">No Comments</small>
+        {% endif %}
+        </p>
+
+        <form class="input-group mb-3" method="POST" action="/create-comment,{{post.id}}">
+            <input type="text" id="text" name="text" class="form-control" placeholder="Comment something!" />
+            <button type="submit" class="btn btn-primary">Comment</button>
+        </form>
+
+        <form method="POST" action="/updatepoststatus,{{post.id}}">
+            {% if user.roles == "User" %}
+
+            <p class="form-control" name="status">{{post.status}}</p>
+
+            {% else %}
+
+                {% if post.category == "Bug" %}
+
+                <select id="htypereg" name="status" value={{post.status}}>
+                <option>{{post.status}}</option>
+                <option>New</option>
+                <option>Ongoing</option>
+                <option>Fixed</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary">Update Status</button>
+
+                {% else %}
+
+                <select id="htypereg" name="status" value={{post.status}}>
+                <option>New</option>
+                </select>
+
+                {% endif %}
+
+            {% endif %}
+        </form>
+
+    </div>
+    <div class="card-footer text-muted">{{post.date_created}}</div>
+    </div>
+    <br/ >
+
+
+    {% endfor %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script src="static/postlikeindex.js"></script>
+
+{% endblock %}
+
+
+
+

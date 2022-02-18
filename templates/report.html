@@ -1,0 +1,1077 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehicle Reports Overview{% endblock %}
+
+{% block content %}
+
+
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/reportentry">Vehicle Entry Status</a>
+    <a href="/reportapproved" >Approved Vehicles By Period</a>
+    <a href="/reportuser">User Account Status</a>
+    <a href="/reportevent">Type of Events</a>
+    <a href="/reportwarning" >Warning Vehicles By Period</a>
+    <a href="/reportoffence">Vehicle Warning Offences</a>
+    <a href="/reportblacklist" >Blacklisted Vehicles By Period</a>
+    <a href="/reportholder">Vehicle Holder Type</a>
+    <a href="/reportcompany">Vehicles By Company</a>
+    <a href="/reportcat">Type of Posts</a>
+    <a href="/reportstatus">Bug Post Status</a>
+</div>
+
+<div id="myEditbar" class="editbar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeEdit()">&times;</a>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck1" onclick="myF()" />Vehicle Entry Status
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck2" onclick="myFu()" />Approved Vehicles
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck3" onclick="myFun()" />User Account Status
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck4" onclick="myFunc()" />Type of Events
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck5" onclick="myFunct()" />Warning Vehicles
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck6" onclick="myFuncti()" />Vehicle Warning Offences
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck7" onclick="myFunctio()" />Blacklisted Vehicles
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck8" onclick="myFunction()" />Vehicle Holder Type
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck9" onclick="checkF()" />Vehicles By Company
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck10" onclick="checkFu()" />Type of Posts
+    </label>
+
+    <label class="word">
+        <input checked class="chkbox" type="checkbox" id="myCheck11" onclick="checkFun()" />Bug Post Status
+    </label>
+
+</div>
+
+<div id="main" class="content">
+    <button class="openbtn" onclick="openNav()">&#9776;</button>
+    <div id="con">
+        <button class="editbtn" onclick="openEdit()">Filter Report</button>
+
+        <link rel="stylesheet"  type="text/css" href="static/styles.css" />
+        <link type="text/css" rel="stylesheet" href="static/default.css" />
+        <br />
+        <h2 class="h2">Reports Overview</h2>
+        <br />
+
+        <div class="box" style="background-color: #f5f5f5; height:auto; margin-left:2rem; margin-right:2rem;"><br />
+            <div class="chartBox" id="box1">
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <div class="chartBox" id="box2">
+                <canvas id="lineChart"></canvas>
+            </div>
+
+            <div class="chartBox" id="box3" style="width: 200px;">
+                <canvas id="doughnutChart3"></canvas>
+            </div>
+
+            <div class="chartBox1" id="box4">
+                <canvas id="barChart"></canvas>
+            </div>
+
+            <div class="chartBox1" id="box5">
+                <canvas id="lineChart2"></canvas>
+            </div>
+
+            <div class="chartBox1" id="box6">
+                <canvas id="barChart2"></canvas>
+            </div>
+
+            <div class="chartBox2" id="box7">
+                <canvas id="lineChart3"></canvas>
+            </div>
+
+            <div class="chartBox2" id="box8" style="width: 240px;">
+                <canvas id="doughnutChart2"></canvas>
+            </div>
+
+            <div class="chartBox2" id="box9" style="width: 240px;">
+                <canvas id="doughnutChart1"></canvas>
+            </div>
+
+            <div class="chartBox3" id="box10" style="width: 200px;">
+                <canvas id="doughnutChart4"></canvas>
+            </div>
+
+            <div class="chartBox3" id="box11" style="width: 220px;">
+                <canvas id="doughnutChart5"></canvas>
+            </div>
+
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script src="static/Chart.min.js"></script>
+
+    <script src="static/js/jQuery.min.js"></script>
+    <script src="static/js/Chart.min.js"></script>
+
+    <script>
+    const data = {
+        labels: [{% for row in query1 %}
+        "{{row.year.year}}",
+        {% endfor %}],
+        datasets:[{
+            label: 'Approved Vehicles',
+            data: [{% for row in query1 %}
+            {{row.approved}},
+            {% endfor %}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)'],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)'],
+            borderWidth: 4
+
+        }, {
+            label: 'Denied Vehicles',
+            data: [{% for row in query2 %}
+            {{row.denied}},
+            {% endfor %}],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)'],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)'],
+            borderWidth: 4
+
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options : {
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year'
+
+                    }
+
+                }],
+                yAxes: [{
+                    ticks:{
+                        beginAtZero: true
+
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Vehicles'
+
+                    }
+
+                }]
+
+            }
+
+        }
+    };
+
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+
+    const dataline = {
+        labels : [{% for row in output %}
+        "{{row.year.year}}",
+        {% endfor %}],
+        datasets : [{
+            label: 'Approved Vehicles',
+            fill: true,
+            lineTension:0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(1,5,8,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(1,5,8,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for row in output %}
+            {{row.total}},
+            {% endfor %}],
+            spanGaps: false
+
+        }]
+    };
+
+    const configline = {
+        type: 'line',
+        data: dataline,
+        options : {
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year'
+
+                    }
+
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Vehicles'
+
+                    }
+
+                }]
+
+            }
+
+        }
+    };
+
+    const lineChart = new Chart(
+        document.getElementById('lineChart'),
+        configline
+    );
+
+    const datadoughnut = {
+        labels: [{% for row in result %}
+        "{{row.company}}",
+        {% endfor %}],
+        datasets: [
+            {
+                label: "Vehicles By Company",
+                data: [{% for row in result %}
+                "{{row.total}}",
+                {% endfor %}],
+                backgroundColor: [
+                    "#DE87DD",
+                    "#ADD8E6",
+                    "#FAA0A0",
+                    "#F4A460",
+                    "#2E8B57",
+                    "#FFFF00",
+                    "#8BE78B",
+                    "#2ECEC2",
+                    "#914900"
+                ],
+                borderColor: [
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9"
+                ],
+                borderWidth: [1, 1, 1, 1, 1]
+
+            }]
+
+    };
+
+    const configdoughnut = {
+        type: 'doughnut',
+        data: datadoughnut,
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                position: "top",
+                text: "Vehicles By Company",
+                labels: {
+                    fontColor: "#111",
+                    fontSize: 20
+
+                }
+
+            },
+            legend: {
+                display: true,
+                position: "bottom",
+                labels: {
+                    fontColor: "#333",
+                    fontSize: 10
+
+                }
+
+            }
+
+        }
+    };
+
+    const doughnutChart1 = new Chart(
+        document.getElementById('doughnutChart1'),
+        configdoughnut
+    );
+
+    const datawarn = {
+        labels : [{% for row in out %}
+        "{{row.year.year}}",
+        {% endfor %}],
+        datasets : [{
+            label: 'Warning Vehicles',
+            fill: true,
+            lineTension:0.1,
+            backgroundColor: "rgba(255,192,203,0.4)",
+            borderColor: "rgba(255,192,203,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(1,5,8,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(255,192,203,1)",
+            pointHoverBorderColor: "rgba(1,5,8,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for row in out %}
+            {{row.total}},
+            {% endfor %}],
+            spanGaps: false
+
+        }]
+    };
+
+    const configwarn = {
+        type: 'line',
+        data: datawarn,
+        options : {
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year'
+
+                    }
+
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Vehicles'
+
+                    }
+
+                }]
+
+            }
+
+        }
+    };
+
+    const lineChart2 = new Chart(
+        document.getElementById('lineChart2'),
+        configwarn
+    );
+
+    const datablack = {
+        labels : [{% for row in outcome %}
+        "{{row.year.year}}",
+        {% endfor %}],
+        datasets : [{
+            label: 'Blacklisted Vehicles',
+            fill: true,
+            lineTension:0.1,
+            backgroundColor: "rgba(128,0,128,0.4)",
+            borderColor: "rgba(128,0,128,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(1,5,8,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(128,0,128,1)",
+            pointHoverBorderColor: "rgba(1,5,8,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for row in outcome %}
+            {{row.total}},
+            {% endfor %}],
+            spanGaps: false
+
+        }]
+    };
+
+    const configblack = {
+        type: 'line',
+        data: datablack,
+        options : {
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year'
+
+                    }
+
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Vehicles'
+
+                    }
+
+                }]
+
+            }
+
+        }
+    };
+
+    const lineChart3 = new Chart(
+        document.getElementById('lineChart3'),
+        configblack
+    );
+
+    const dataevent = {
+        labels: [{% for row in query3 %}
+        "{{row.year.year}}",
+        {% endfor %}],
+        datasets:[{
+            label: 'Event',
+            data: [{% for row in query3 %}
+            {{row.event}},
+            {% endfor %}],
+            backgroundColor: [
+                'rgba(165, 222, 135, 0.5)',
+                'rgba(165, 222, 135, 0.5)',
+                'rgba(165, 222, 135, 0.5)',
+                'rgba(165, 222, 135, 0.5)'],
+            borderColor: [
+                'rgba(165, 222, 135, 1)',
+                'rgba(165, 222, 135, 1)',
+                'rgba(165, 222, 135, 1)',
+                'rgba(165, 222, 135, 1)'],
+            borderWidth: 4
+        }, {
+            label: 'Lockdown',
+            data: [{% for row in query4 %}
+            {{row.lockdown}},
+            {% endfor %}],
+            backgroundColor: [
+                'rgba(222, 135, 135, 0.5)',
+                'rgba(222, 135, 135, 0.5)',
+                'rgba(222, 135, 135, 0.5)',
+                'rgba(222, 135, 135, 0.5)'],
+            borderColor: [
+                'rgba(222, 135, 135, 1)',
+                'rgba(222, 135, 135, 1)',
+                'rgba(222, 135, 135, 1)',
+                'rgba(222, 135, 135, 1)'],
+            borderWidth: 4
+        }]
+    };
+
+    const configevent = {
+        type: 'bar',
+        data: dataevent,
+        options : {
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year'
+
+                    }
+
+                }],
+                yAxes: [{
+                    ticks:{
+                        beginAtZero: true
+
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Values'
+
+                    }
+
+                }]
+
+            }
+
+        }
+    };
+
+    const barChart = new Chart(
+        document.getElementById('barChart'),
+        configevent
+    );
+
+    const dataholder = {
+        labels: [{% for row in results %}
+        "{{row.holdertype}}",
+        {% endfor %}],
+        datasets: [
+            {
+                label: "Vehicle Holder Type",
+                data: [{% for row in results %}
+                "{{row.total}}",
+                {% endfor %}],
+                backgroundColor: [
+                    "#DE87DD",
+                    "#ADD8E6",
+                    "#FAA0A0",
+                    "#F4A460",
+                    "#2E8B57",
+                    "#FFFF00"
+                ],
+                borderColor: [
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9"
+                ],
+                borderWidth: [1, 1, 1, 1, 1]
+
+            }]
+
+    };
+
+    const configholder = {
+        type: 'doughnut',
+        data: dataholder,
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                position: "top",
+                text: "Vehicle Holder Type",
+                labels: {
+                    fontColor: "#111",
+                    fontSize: 20
+
+                }
+
+            },
+            legend: {
+                display: true,
+                position: "bottom",
+                labels: {
+                    fontColor: "#333",
+                    fontSize: 10
+
+                }
+
+            }
+
+        }
+    };
+
+    const doughnutChart2 = new Chart(
+        document.getElementById('doughnutChart2'),
+        configholder
+    );
+
+    const dataoffence = {
+        labels: [{% for row in sum %}
+        "{{row.offence}}",
+        {% endfor %}],
+        datasets:[{
+            data: [{% for row in sum %}
+            {{row.total}},
+            {% endfor %}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(91,187,227, 0.5)',
+                'rgba(111,176,30, 0.5)',
+                'rgba(213,201,73, 0.5)'],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(91,187,227, 1)',
+                'rgba(111,176,30, 1)',
+                'rgba(213,201,73, 1)'],
+            borderWidth: 4
+        }]
+    };
+
+    const configoffence = {
+        type: 'bar',
+        data: dataoffence,
+        options : {
+            maintainAspectRatio: false,
+            title:{
+                display:true,
+                position: "top",
+                text: "Vehicle Warning Offences",
+                labels: {
+                    fontColor: "#111",
+                    fontSize: 20
+                }
+
+            },
+            legend: {
+                display: false,
+
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Times Caught'
+
+                    }
+
+                }],
+                yAxes: [{
+                    ticks:{
+                        beginAtZero: true
+
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Vehicle'
+
+                    }
+
+                }]
+
+            }
+
+        }
+    };
+
+    const barChart2 = new Chart(
+        document.getElementById('barChart2'),
+        configoffence
+    );
+
+    const datauser = {
+        labels: [{% for row in sums %}
+        "{{row.status}}",
+        {% endfor %}],
+        datasets: [
+            {
+                label: "User Account Status",
+                data: [{% for row in sums %}
+                "{{row.total}}",
+                {% endfor %}],
+                backgroundColor: [
+                    "#DE87DD",
+                    "#ADD8E6",
+                    "#FAA0A0",
+                    "#F4A460",
+                    "#2E8B57",
+                    "#FFFF00"
+                ],
+                borderColor: [
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9"
+                ],
+                borderWidth: [1, 1, 1, 1, 1]
+
+            }]
+
+    };
+
+    const configuser = {
+        type: 'doughnut',
+        data: datauser,
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                position: "top",
+                text: "User Account Status",
+                labels: {
+                    fontColor: "#111",
+                    fontSize: 20
+
+                }
+
+            },
+            legend: {
+                display: true,
+                position: "bottom",
+                labels: {
+                    fontColor: "#333",
+                    fontSize: 10
+
+                }
+
+            }
+
+        }
+    };
+
+    const doughnutChart3 = new Chart(
+        document.getElementById('doughnutChart3'),
+        configuser
+    );
+
+    const datapost = {
+        labels: [{% for row in categ %}
+        "{{row.category}}",
+        {% endfor %}],
+        datasets: [
+            {
+                label: "Type of Posts",
+                data: [{% for row in categ %}
+                "{{row.total}}",
+                {% endfor %}],
+                backgroundColor: [
+                    "#DE87DD",
+                    "#ADD8E6",
+                    "#FAA0A0",
+                    "#F4A460",
+                    "#2E8B57",
+                    "#FFFF00"
+                ],
+                borderColor: [
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9"
+                ],
+                borderWidth: [1, 1, 1, 1, 1]
+
+            }]
+
+    };
+
+    const configpost = {
+        type: 'doughnut',
+        data: datapost,
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                position: "top",
+                text: "Type of Posts",
+                labels: {
+                    fontColor: "#111",
+                    fontSize: 20
+
+                }
+
+            },
+            legend: {
+                display: true,
+                position: "bottom",
+                labels: {
+                    fontColor: "#333",
+                    fontSize: 10
+
+                }
+
+            }
+
+        }
+    };
+
+    const doughnutChart4 = new Chart(
+        document.getElementById('doughnutChart4'),
+        configpost
+    );
+
+    const datastatus = {
+        labels: [{% for row in stats %}
+        "{{row.status}}",
+        {% endfor %}],
+        datasets: [
+            {
+                label: "Bug Post Status",
+                data: [{% for row in stats %}
+                "{{row.total}}",
+                {% endfor %}],
+                backgroundColor: [
+                    "#DE87DD",
+                    "#ADD8E6",
+                    "#FAA0A0",
+                    "#F4A460",
+                    "#2E8B57",
+                    "#FFFF00"
+                ],
+                borderColor: [
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9",
+                    "#A9A9A9"
+                ],
+                borderWidth: [1, 1, 1, 1, 1]
+
+            }]
+
+    };
+
+    const configstatus = {
+        type: 'doughnut',
+        data: datastatus,
+        options: {
+            responsive: true,
+            title:{
+                display:true,
+                position: "top",
+                text: "Bug Post Status",
+                labels: {
+                    fontColor: "#111",
+                    fontSize: 20
+
+                }
+
+            },
+            legend: {
+                display: true,
+                position: "bottom",
+                labels: {
+                    fontColor: "#333",
+                    fontSize: 10
+
+                }
+
+            }
+
+        }
+    };
+
+    const doughnutChart5 = new Chart(
+        document.getElementById('doughnutChart5'),
+        configstatus
+    );
+
+    </script>
+
+    </div>
+
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "220px";
+  document.getElementById("main").style.marginLeft = "220px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
+
+</script>
+
+<script>
+function openEdit() {
+  document.getElementById("myEditbar").style.width = "220px";
+  document.getElementById("con").style.marginRight = "220px";
+}
+
+function closeEdit() {
+  document.getElementById("myEditbar").style.width = "0";
+  document.getElementById("con").style.marginRight = "0";
+}
+
+</script>
+
+<script>
+function myF() {
+
+  var checkBox = document.getElementById("myCheck1");
+
+  var chart1 = document.getElementById("box1");
+
+  if (checkBox.checked == true){
+    chart1.style.display = "inline-block";
+  } else {
+    chart1.style.display = "none";
+  }
+}
+
+function myFu() {
+
+  var checkBox = document.getElementById("myCheck2");
+
+  var chart2 = document.getElementById("box2");
+
+  if (checkBox.checked == true){
+    chart2.style.display = "inline-block";
+  } else {
+    chart2.style.display = "none";
+  }
+}
+
+function myFun() {
+
+  var checkBox = document.getElementById("myCheck3");
+
+  var chart3 = document.getElementById("box3");
+
+  if (checkBox.checked == true){
+    chart3.style.display = "inline-block";
+  } else {
+    chart3.style.display = "none";
+  }
+}
+
+function myFunc() {
+
+  var checkBox = document.getElementById("myCheck4");
+
+  var chart4 = document.getElementById("box4");
+
+  if (checkBox.checked == true){
+    chart4.style.display = "inline-block";
+  } else {
+    chart4.style.display = "none";
+  }
+}
+
+function myFunct() {
+
+  var checkBox = document.getElementById("myCheck5");
+
+  var chart5 = document.getElementById("box5");
+
+  if (checkBox.checked == true){
+    chart5.style.display = "inline-block";
+  } else {
+    chart5.style.display = "none";
+  }
+}
+
+function myFuncti() {
+
+  var checkBox = document.getElementById("myCheck6");
+
+  var chart6 = document.getElementById("box6");
+
+  if (checkBox.checked == true){
+    chart6.style.display = "inline-block";
+  } else {
+    chart6.style.display = "none";
+  }
+}
+
+function myFunctio() {
+
+  var checkBox = document.getElementById("myCheck7");
+
+  var chart7 = document.getElementById("box7");
+
+  if (checkBox.checked == true){
+    chart7.style.display = "inline-block";
+  } else {
+    chart7.style.display = "none";
+  }
+}
+
+function myFunction() {
+
+  var checkBox = document.getElementById("myCheck8");
+
+  var chart8 = document.getElementById("box8");
+
+  if (checkBox.checked == true){
+    chart8.style.display = "inline-block";
+  } else {
+    chart8.style.display = "none";
+  }
+}
+
+function checkF() {
+
+  var checkBox = document.getElementById("myCheck9");
+
+  var chart9 = document.getElementById("box9");
+
+  if (checkBox.checked == true){
+    chart9.style.display = "inline-block";
+  } else {
+    chart9.style.display = "none";
+  }
+}
+
+function checkFu() {
+
+  var checkBox = document.getElementById("myCheck10");
+
+  var chart10 = document.getElementById("box10");
+
+  if (checkBox.checked == true){
+    chart10.style.display = "inline-block";
+  } else {
+    chart10.style.display = "none";
+  }
+}
+
+function checkFun() {
+
+  var checkBox = document.getElementById("myCheck11");
+
+  var chart11 = document.getElementById("box11");
+
+  if (checkBox.checked == true){
+    chart11.style.display = "inline-block";
+  } else {
+    chart11.style.display = "none";
+  }
+}
+</script>
+
+
+{% endblock %}

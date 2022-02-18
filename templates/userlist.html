@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %} User List {% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+<style>
+    #button{
+    width: 60px;
+    height: 40px;
+    line-height: 20px;
+    min-height: 20px;
+    font-size: 15px;
+    text-align: center;
+    }
+</style>
+
+<style>
+    select {
+        width:100%;
+        height:30px;
+    }
+</style>
+
+
+        <h2>
+        <a class="btn btn-success float-right" href="/admincreateuser">Create User</a>
+        <a class="btn btn-success float-right" href="/importuser" style="margin-right:15px;">Import User From CSV</a>
+        </h2>
+
+        <h2 class="h2" style="color:white;">User List</h2>
+
+        <div style="margin-top:40px">
+            <form method="POST" action="/deleteuser">
+
+            <div align="right">
+                <input type="submit" value="Delete All Selected" class="btn btn-primary" onclick="return confirm('Confirm deletion?')">
+            </div>
+
+            <br/>
+
+            <table id="data" class="table table-striped" style="background-color:#ffffff">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in users %}
+                    <tr>
+                        <td>{{row.id}}</td>
+                        <td>{{row.email}}</td>
+                        <td>{{row.roles}}</td>
+                        <td>{{row.name}}</td>
+                        <td>{{row.contact}}</td>
+                        <td>{{row.status}}</td>
+                        <td>
+                            <a href="/updateuser/{{row.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">Edit</a>
+                        </td>
+                        <td><input type="checkbox" name="mycheckbox" value="{{row.id}}" /></td></form>
+                    </tr>
+
+                <!-- Modal Edit User -->
+                <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Update Information</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <form action="{{url_for('userlist.updateuser')}}" method="POST">
+
+                                    <div class="form-group">
+                                        <label>Email:</label>
+                                        <input type="hidden" name="id" value="{{row.id}}">
+                                        <input type="email" class="form-control" name="email" value="{{row.email}}" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Roles:</label>
+                                        <select id="htypereg" name="roles" value="{{row.roles}}" required>
+                                            <option>{{ row.roles }}</option>
+                                            <option>Admin</option>
+                                            <option>User</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Name:</label>
+                                        <input type="text" class="form-control" name="name" value="{{row.name}}" required minlength="3">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Contact:</label>
+                                        <input type="text" class="form-control" name="contact" value="{{row.contact}}" required minlength="7">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Status:</label>
+                                        <select id="htypereg" name="status" value="{{row.status}}">
+                                            <option>{{ row.status }}</option>
+                                            <option>Active</option>
+                                            <option>Inactive</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" type="submit">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+
+    <script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        columns: [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {orderable: false, searchable: false},
+            {orderable: false, searchable: false}],
+             "order": [[0, "desc"]]
+
+      });
+    });
+    </script>
+
+{% endblock %}
