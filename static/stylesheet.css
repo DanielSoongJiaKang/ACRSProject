@@ -1,0 +1,130 @@
+/*  Code Snippet: Stylish Login Page
+*   Author: Asif Mughal
+*   URL: www.codeconvey.com
+*/
+
+* {margin: 0; padding: 0}
+
+    body{
+        font-family: 'Arial', sans-serif;
+        background: url(background.jpg) no-repeat;
+        background-size: 100%;
+
+
+    }
+    .codehim-form{
+        max-width:  650px;
+        min-height: 400px;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.6);
+        box-shadow: 4px 2px 16px rgba(0, 0, 0, 0.4);
+        border-radius: 8px;
+        margin:  20px auto 0 auto;
+        padding: 25px;
+        margin-top: 100;
+        color: #414141;
+
+    }
+    .cm-input{
+        display: block;
+        box-sizing: border-box;
+        padding: 10px;
+        width: 100%;
+        margin: 14px auto;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        font-size: 25px;
+
+
+    }
+    .cm-input:focus{
+        outline: 0;
+        border-color: #f9cb81;
+
+
+    }
+    .cm-input:invalid{
+        border-color: #e41b17;
+
+    }
+
+    /* Gradient Background */
+    .gr-bg{
+        background-color: #8cc43c;
+        background-color: #8cc43c;
+
+    }
+
+
+    /* Login Button Design */
+
+    .btn-login{
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: 0;
+        color: #00000;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size:20px;
+        margin-top:50;
+
+    }
+    .btn-login:focus{
+        outline: 0;
+    }
+
+    .btn-login:hover{
+        opacity: 0.8;
+        transition: .3s;
+    }
+
+    /* For, tiele */
+    .form-title{
+        padding: 12px;
+        text-align: center;
+        position: relative;
+
+
+    }
+    .form-title h2{
+        color: #000000;
+    }
+    .form-title .user-icon{
+        position: absolute;
+
+        font-size: 42px;
+        color: #fff;
+        width: 90px;
+        height: 90px;
+        line-height: 90px;
+        text-align: center;
+        border-radius: 45px;
+        top: -60px;
+        left: -45px;
+
+    }
+    .fa-user {
+        margin-top:20;
+        color:#000000;
+    }
+    .fa-eye{
+        margin-left: 560;
+        margin-top: -49;
+        position: relative;
+        cursor: pointer;
+    }
+    .fa-eye-slash {
+        margin-left: 560;
+        margin-top: -49;
+        position: relative;
+        cursor: pointer;
+    }
+    .control-label {
+        font-size:25px;
+    }
+    .center {
+        margin-top: 60;
+    }
+
+    }
